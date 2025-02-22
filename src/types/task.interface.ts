@@ -3,5 +3,5 @@ export interface ITask {
   description: string;
   status: "todo" | "inProgress" | "completed";
   priority: "low" | "normal" | "high";
-  dueDate: string;
+  dueDate: Date;
 }
