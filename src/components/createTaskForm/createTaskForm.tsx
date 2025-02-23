@@ -40,14 +40,10 @@ export function CreateTaskForm() {
   // 1. Define your form.
   const form = useForm({
     resolver: zodResolver(CreateTaskSchema),
-    /*  To get rid of teh state change error add default values */
-    defaultValues: {
-      title: "",
-    },
   });
 
   /** Function to handle what will happen when the form is submitted */
-  function onSubmit(values) {
+  function onSubmit(values: any) {
     console.log(values);
 
     let dueDate = JSON.stringify(values.dueDate);
@@ -65,7 +61,11 @@ export function CreateTaskForm() {
               render={({ field }) => (
                 <FormItem>
                   <FormControl>
-                    <Input placeholder="Task Title" {...field} />
+                    <Input
+                      placeholder="Task Title"
+                      {...field}
+                      value={field.value ?? ""}
+                    />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -163,9 +163,7 @@ export function CreateTaskForm() {
                         mode="single"
                         selected={field.value}
                         onSelect={field.onChange}
-                        disabled={(date) =>
-                          date > new Date() || date < new Date("2024-01-01")
-                        }
+                        disabled={(date) => date < new Date()}
                         initialFocus
                       />
                     </PopoverContent>
