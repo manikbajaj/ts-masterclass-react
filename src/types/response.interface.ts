@@ -1,13 +1,13 @@
-interface DataProperties {
+interface IDataProperties {
   createdAt: string;
   updatedAt: string;
   _id: string;
 }
 
-interface Response<T> {
+export interface IResponse<T> {
   status: "success" | "error";
   statusCode: number;
   message: string;
-  data: (T & DataProperties) | (T & DataProperties)[];
+  data: (T & IDataProperties) | (T & IDataProperties)[];
   meta?: {};
 }

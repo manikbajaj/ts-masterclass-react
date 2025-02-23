@@ -1,5 +1,6 @@
 import { useMutation } from "@tanstack/react-query";
 import { ITask } from "@/types/task.interface";
+import { IResponse } from "./../types/response.interface";
 
 // Simulated function to post data to an API endpoint
 const createTask = async (task: ITask) => {
@@ -22,7 +23,7 @@ const createTask = async (task: ITask) => {
 export function useCreateTask() {
   return useMutation({
     mutationFn: createTask,
-    onSuccess: (response) => {
+    onSuccess: (response: IResponse<ITask>) => {
       // This callback is triggered if the mutation is successful
       console.log(response);
     },
