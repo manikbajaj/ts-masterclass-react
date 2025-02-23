@@ -1,3 +1,5 @@
+import { useEffect } from "react";
+
 import {
   Form,
   FormControl,
@@ -33,9 +35,15 @@ import { useForm } from "react-hook-form";
 import { useState } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import z from "zod";
+import { useCreateTask } from "@/hooks/createTask.hook";
+import { useQueryClient } from "@tanstack/react-query";
+import { Toaster } from "sonner";
+import { toast } from "sonner";
 
 export function CreateTaskForm() {
   const [date, setDate] = useState();
+  const { mutate, isSuccess, isError, isPending } = useCreateTask();
+  const queryClient = useQueryClient();
 
   // 1. Define your form.
   const form = useForm<z.infer<typeof CreateTaskSchema>>({
@@ -44,8 +52,17 @@ export function CreateTaskForm() {
 
   /** Function to handle what will happen when the form is submitted */
   function onSubmit(values: z.infer<typeof CreateTaskSchema>) {
-    console.log(values);
+    let dueDate = values.dueDate.toISOString();
+    mutate({ ...values, dueDate });
+    form.reset();
   }
+
+  useEffect(() => {
+    /* Setup code */
+    if (isSuccess) {
+      toast("New Task Created");
+    }
+  }, [isSuccess]);
 
   return (
     <div>
@@ -193,6 +210,7 @@ export function CreateTaskForm() {
           </div>
         </form>
       </Form>
+      <Toaster />
     </div>
   );
 }
