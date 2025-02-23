@@ -5,7 +5,7 @@ import { ITask } from "@/types/task.interface";
 const createTask = async (task: ITask) => {
   /* get the token */
 
-  const response = await fetch(`${import.meta.env.VITE_API_URL}tasks`, {
+  const response = await fetch(`${import.meta.env.VITE_API_URL}tasks/create`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
