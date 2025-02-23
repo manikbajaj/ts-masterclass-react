@@ -16,7 +16,6 @@ import {
   SelectContent,
   SelectGroup,
   SelectItem,
-  SelectLabel,
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
@@ -33,22 +32,21 @@ import { format } from "date-fns";
 import { useForm } from "react-hook-form";
 import { useState } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
+import z from "zod";
 
 export function CreateTaskForm() {
   const [date, setDate] = useState();
 
   // 1. Define your form.
-  const form = useForm({
+  const form = useForm<z.infer<typeof CreateTaskSchema>>({
     resolver: zodResolver(CreateTaskSchema),
   });
 
   /** Function to handle what will happen when the form is submitted */
-  function onSubmit(values: any) {
+  function onSubmit(values: z.infer<typeof CreateTaskSchema>) {
     console.log(values);
-
-    let dueDate = JSON.stringify(values.dueDate);
-    console.log(dueDate);
   }
+
   return (
     <div>
       <h2 className="text-xl mb-4">Create a new task</h2>
