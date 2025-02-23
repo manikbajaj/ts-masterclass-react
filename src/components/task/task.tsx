@@ -19,7 +19,7 @@ export const Task: FC<ITask> = (props: ITask): ReactElement => {
   const { title, description, dueDate, status, priority } = props;
 
   // Use toLocaleDateString with options for day, month, and year
-  let formattedDate = dueDate.toLocaleDateString("en-GB", {
+  let formattedDate = new Date(dueDate).toLocaleDateString("en-GB", {
     day: "numeric",
     month: "short",
     year: "numeric",
