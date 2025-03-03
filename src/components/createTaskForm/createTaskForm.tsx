@@ -58,6 +58,10 @@ export function CreateTaskForm() {
   function onSubmit(values: z.infer<typeof CreateTaskSchema>) {
     let dueDate = values.dueDate.toISOString();
     mutate({ ...values, dueDate });
+    queryClient.invalidateQueries({
+      queryKey: ["fetchTasks"],
+      refetchType: "all", // refetch both active and inactive queries
+    });
   }
 
   useEffect(() => {

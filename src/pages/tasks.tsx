@@ -10,6 +10,7 @@ export const Tasks: FC = (): ReactElement => {
   /* Trigger the hook  */
   const { data, isError, isSuccess, isPending, error } = useFetchTasks();
   // Custom type guard to check if the response data is an array
+  console.log(data);
 
   return (
     <section className="flex flex-row w-full p-4 gap-8 ">
@@ -38,8 +39,8 @@ export const Tasks: FC = (): ReactElement => {
             <TasksCounter
               status="completed"
               count={
-                data && data.meta && "completed" in data.meta
-                  ? (data.meta.completed as number)
+                data && data.meta && "completedTasks" in data.meta
+                  ? (data.meta.completedTasks as number)
                   : 0
               }
             />

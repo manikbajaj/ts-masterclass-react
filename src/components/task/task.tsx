@@ -15,12 +15,14 @@ import { Label } from "@/components/ui/label";
 import { Switch } from "@/components/ui/switch";
 import { ITask } from "@/types/task.interface";
 import { useUpdateTask } from "@/hooks/useUpdateTask.hook";
+import { useQueryClient } from "@tanstack/react-query";
 
 export const Task: FC<ITask> = (props: ITask): ReactElement => {
   const { title, description, dueDate, status, priority, _id } = props;
 
   const [progress, setProgress] = useState(false);
   const { mutate, isSuccess } = useUpdateTask();
+  const queryClient = useQueryClient();
 
   // Use toLocaleDateString with options for day, month, and year
   let formattedDate = new Date(dueDate).toLocaleDateString("en-GB", {
@@ -40,12 +42,20 @@ export const Task: FC<ITask> = (props: ITask): ReactElement => {
     if (_id) {
       mutate({ _id: _id, status: value ? "inProgress" : "todo" });
     }
+    queryClient.invalidateQueries({
+      queryKey: ["fetchTasks"],
+      refetchType: "all", // refetch both active and inactive queries
+    });
   }
 
   function handleTaskCompleted() {
     if (_id) {
       mutate({ _id: _id, status: "completed" });
     }
+    queryClient.invalidateQueries({
+      queryKey: ["fetchTasks"],
+      refetchType: "all", // refetch both active and inactive queries
+    });
   }
 
   return (
