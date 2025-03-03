@@ -48,13 +48,16 @@ export function CreateTaskForm() {
   // 1. Define your form.
   const form = useForm<z.infer<typeof CreateTaskSchema>>({
     resolver: zodResolver(CreateTaskSchema),
+    defaultValues: {
+      status: "todo",
+      priority: "normal",
+    },
   });
 
   /** Function to handle what will happen when the form is submitted */
   function onSubmit(values: z.infer<typeof CreateTaskSchema>) {
     let dueDate = values.dueDate.toISOString();
     mutate({ ...values, dueDate });
-    form.reset();
   }
 
   useEffect(() => {
@@ -62,6 +65,7 @@ export function CreateTaskForm() {
     if (isSuccess) {
       toast("New Task Created");
     }
+    form.reset();
   }, [isSuccess]);
 
   return (
@@ -161,7 +165,7 @@ export function CreateTaskForm() {
                           variant={"outline"}
                           className={cn(
                             "w-full justify-start text-left font-normal",
-                            !date && "text-muted-foreground"
+                            !field.value && "text-muted-foreground"
                           )}
                         >
                           <CalendarIcon className="mr-4" />
@@ -197,7 +201,11 @@ export function CreateTaskForm() {
               render={({ field }) => (
                 <FormItem>
                   <FormControl>
-                    <Textarea placeholder="Task Description" {...field} />
+                    <Textarea
+                      {...field}
+                      placeholder="Task Description"
+                      value={field.value ?? ""}
+                    />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
