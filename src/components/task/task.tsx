@@ -37,11 +37,15 @@ export const Task: FC<ITask> = (props: ITask): ReactElement => {
 
   function handleProgressChange(value: boolean) {
     setProgress(value);
-    mutate({ _id: _id, status: value ? "inProgress" : "todo" });
+    if (_id) {
+      mutate({ _id: _id, status: value ? "inProgress" : "todo" });
+    }
   }
 
   function handleTaskCompleted() {
-    mutate({ _id: _id, status: "completed" });
+    if (_id) {
+      mutate({ _id: _id, status: "completed" });
+    }
   }
 
   return (
