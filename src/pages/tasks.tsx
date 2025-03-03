@@ -65,6 +65,7 @@ export const Tasks: FC = (): ReactElement => {
                 status={task.status}
                 priority={task.priority}
                 title={task.title}
+                _id={task._id}
               />
             ))}
         </div>
