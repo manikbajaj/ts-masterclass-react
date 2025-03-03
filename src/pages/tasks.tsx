@@ -38,8 +38,8 @@ export const Tasks: FC = (): ReactElement => {
             <TasksCounter
               status="completed"
               count={
-                data && data.meta && "completed" in data.meta
-                  ? (data.meta.completed as number)
+                data && data.meta && "completedTasks" in data.meta
+                  ? (data.meta.completedTasks as number)
                   : 0
               }
             />
